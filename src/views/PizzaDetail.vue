@@ -1,15 +1,18 @@
 <script setup>
-import { useRoute } from 'vue-router';
 import { onMounted } from 'vue';
 import { usePizza } from '@/composables/usePizza';
 
 const { pizza, error, loading, fetchPizza } = usePizza()
-const route = useRoute()
-const pizzaId = route.query?.id
+const props = defineProps({
+  id: {
+    type: String,
+    required: true
+  }
+})
 
 onMounted(() => {
-  if (pizzaId) {
-    fetchPizza(pizzaId)
+  if (props.id) {
+    fetchPizza(props.id)
   }
 })
 </script>

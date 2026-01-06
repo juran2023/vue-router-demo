@@ -13,16 +13,22 @@ const routes = [
   },
   {
     path: '/pizzas',
-    name: 'Pizzas',
-    component: () => import('../views/Pizzas.vue'),
-    props: (route) => ({
-      searchTerm: route.query?.search || '',
-    }),
-  },
-  {
-    path: '/pizza',
-    name: 'pizzaDetail',
-    component: () => import('../views/PizzaDetail.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Pizzas',
+        component: () => import('../views/Pizzas.vue'),
+        props: (route) => ({
+          searchTerm: route.query?.search || '',
+        }),
+      },
+      {
+        path: ':id',
+        name: 'pizzaDetail',
+        props: true,
+        component: () => import('../views/PizzaDetail.vue'),
+      },
+    ],
   },
   {
     path: '/contact',

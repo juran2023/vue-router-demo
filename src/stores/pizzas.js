@@ -7,10 +7,9 @@ export const usePizzasStore = defineStore('pizzas', () => {
 
   const fetchPizzas = async () => {
     try {
-      const response = await axios.get('http://localhost:8700/pizzas/')
-      pizzas.value = response.data.data
-      console.log('API data:', response.data.data)
-
+      const response = await axios.get('http://localhost:8080/pizzas')
+      pizzas.value = response.data
+      console.log('API data:', response.data)
     } catch (error) {
       console.error('There was an error fetching the pizzas!', error)
     }
