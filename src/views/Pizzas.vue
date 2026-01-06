@@ -2,14 +2,20 @@
 import { usePizzasStore } from '@/stores/pizzas';
 import { onMounted, watch } from 'vue';
 import { useSearch } from '@/composables/useSearch';
-import { useRoute, useRouter } from 'vue-router';
-import { computed, ref } from 'vue';
-const route = useRoute()
+import { useRouter, useRoute } from 'vue-router';
+import { computed, ref, defineProps } from 'vue';
+const props = defineProps({
+  searchTerm:{
+    type: String,
+    required: false,
+    default: ""
+  }
+})
 const router = useRouter()
-const querySearch = computed(() => (route.query?.search ?? '').toString())
+const route = useRoute()
 const pizzaStore = usePizzasStore();
 const itemList = computed(() => pizzaStore.pizzas)
-const { search, searchResults } = useSearch(itemList, 'name', querySearch.value)
+const { search, searchResults } = useSearch(itemList, 'name', props.searchTerm)
 const inputValue = ref('')
 
 onMounted(() => {
@@ -25,7 +31,7 @@ function handleSearch() {
   })
 }
 
-watch(querySearch, (newVal, oldVal) => {
+watch(() => props.searchTerm, (newVal) => {
   search.value = newVal
   inputValue.value = newVal
 })
@@ -46,6 +52,5 @@ watch(querySearch, (newVal, oldVal) => {
     <h1>Choose Your Taste</h1>
     <input v-model="inputValue" />
     <button @click="handleSearch">search Pizza</button>
-
   </div>
 </template>

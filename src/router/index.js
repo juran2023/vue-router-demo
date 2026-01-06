@@ -15,6 +15,9 @@ const routes = [
     path: '/pizzas',
     name: 'Pizzas',
     component: () => import('../views/Pizzas.vue'),
+    props: (route) => ({
+      searchTerm: route.query?.search || ""
+    })
   },
   {
     path: '/pizza',
