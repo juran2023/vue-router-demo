@@ -16,8 +16,8 @@ const routes = [
     name: 'Pizzas',
     component: () => import('../views/Pizzas.vue'),
     props: (route) => ({
-      searchTerm: route.query?.search || ""
-    })
+      searchTerm: route.query?.search || '',
+    }),
   },
   {
     path: '/pizza',
@@ -28,6 +28,18 @@ const routes = [
     path: '/contact',
     name: 'Contact',
     component: () => import('../views/Contact.vue'),
+    children: [
+      {
+        path: 'faq',
+        name: 'contact-faq',
+        component: () => import('../views/ContactFaq.vue'),
+      },
+      {
+        path: 'form',
+        name: 'contact-form',
+        component: () => import('../views/ContactForm.vue'),
+      },
+    ],
   },
   {
     path: '/login',
