@@ -1,7 +1,9 @@
 <script setup>
 import { onMounted } from 'vue';
 import { usePizza } from '@/composables/usePizza';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const { pizza, error, loading, fetchPizza } = usePizza()
 const props = defineProps({
   id: {
@@ -29,4 +31,6 @@ onMounted(() => {
     <span>{{ pizza.description }}</span>
     <span>{{ pizza.price }}</span>
   </div>
+  <div><button @click="router.back">back</button></div>
+  <div><button @click="router.forward">forward</button></div>
 </template>
