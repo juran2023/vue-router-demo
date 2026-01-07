@@ -1,9 +1,9 @@
 <script setup>
 import { usePizzasStore } from '@/stores/pizzas';
-import { onMounted, watch } from 'vue';
 import { useSearch } from '@/composables/useSearch';
 import { useRouter, useRoute } from 'vue-router';
-import { computed, ref, defineProps } from 'vue';
+import { watch, ref, defineProps } from 'vue';
+import { storeToRefs } from 'pinia';
 const props = defineProps({
   searchTerm:{
     type: String,
@@ -14,13 +14,11 @@ const props = defineProps({
 const router = useRouter()
 const route = useRoute()
 const pizzaStore = usePizzasStore();
-const itemList = computed(() => pizzaStore.pizzas)
-const { search, searchResults } = useSearch(itemList, 'name', props.searchTerm)
+const {pizzas} = storeToRefs(pizzaStore)
+const { search, searchResults } = useSearch(pizzas, 'name', props.searchTerm)
 const inputValue = ref('')
 
-onMounted(() => {
-  pizzaStore.fetchPizzas();
-});
+pizzaStore.fetchPizzas();
 
 function handleSearch() {
   router.push({
