@@ -21,6 +21,10 @@ const routes = [
         props: (route) => ({
           searchTerm: route.query?.search || '',
         }),
+        beforeEnter(to, from) {
+          console.log(`[route beforeEnter] /about  (${from.fullPath} -> ${to.fullPath})`)
+          return true
+        },
       },
       {
         path: ':id',
