@@ -4,8 +4,9 @@ import { useSearch } from '@/composables/useSearch';
 import { useRouter, useRoute } from 'vue-router';
 import { watch, ref, defineProps } from 'vue';
 import { storeToRefs } from 'pinia';
+import PizzaCard from './PizzaCard.vue';
 const props = defineProps({
-  searchTerm:{
+  searchTerm: {
     type: String,
     required: false,
     default: ""
@@ -14,7 +15,7 @@ const props = defineProps({
 const router = useRouter()
 const route = useRoute()
 const pizzaStore = usePizzasStore();
-const {pizzas} = storeToRefs(pizzaStore)
+const { pizzas } = storeToRefs(pizzaStore)
 const { search, searchResults } = useSearch(pizzas, 'name', props.searchTerm)
 const inputValue = ref('')
 
@@ -40,7 +41,7 @@ watch(() => props.searchTerm, (newVal) => {
     <h1>Pizzas</h1>
     <ul>
       <li v-for="pizza in searchResults" :key="pizza.id">
-        <PizzaCard :pizza="pizza"/>
+        <PizzaCard :pizza="pizza" />
       </li>
     </ul>
   </div>
