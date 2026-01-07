@@ -40,9 +40,7 @@ watch(() => props.searchTerm, (newVal) => {
     <h1>Pizzas</h1>
     <ul>
       <li v-for="pizza in searchResults" :key="pizza.id">
-        {{ pizza.name }} |
-        {{ pizza.description }} |
-        {{ pizza.price }}
+        <PizzaCard :pizza="pizza"/>
       </li>
     </ul>
   </div>
