@@ -1,6 +1,6 @@
-import { defineStore } from "pinia";
-import { computed, ref } from "vue";
-
+import { defineStore } from 'pinia'
+import { computed, ref } from 'vue'
+import { usePizzasStore } from './pizzas'
 
 export const useCartStore = defineStore('cart', () => {
   const addedItems = ref([])
@@ -10,8 +10,25 @@ export const useCartStore = defineStore('cart', () => {
     }, 0)
   })
 
+  const detailedItems = computed(() => {
+    const pizzaStore = usePizzasStore()
+
+    return addedItems.value.map((item) => {
+      const pizza = pizzaStore.pizzas.find((i) => i.id === item.id)
+      const pizzaPrice = pizza?.price ? +pizza.price : 0
+
+      return {
+        ...item,
+        name: pizza.name,
+        description: pizza.description,
+        price: pizzaPrice,
+        total: pizzaPrice * item.quantity,
+      }
+    })
+  })
+
   const add = (item) => {
-    const index = addedItems.value.findIndex(i => i.id === item.id)
+    const index = addedItems.value.findIndex((i) => i.id === item.id)
     if (index > -1) {
       addedItems.value[index].quantity += item.quantity
     } else {
@@ -19,5 +36,5 @@ export const useCartStore = defineStore('cart', () => {
     }
   }
 
-  return { addedItems, total, add }
+  return { addedItems, total, add, detailedItems }
 })
