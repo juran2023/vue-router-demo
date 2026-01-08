@@ -9,11 +9,18 @@ const showCartDetail = ref(false)
   <div class="cart">
     <span class="cart_total" @click="showCartDetail = !showCartDetail">Cart: {{ cartStore.total }}</span>
     <ul v-show="showCartDetail" class="cart_list">
+      <div v-if="cartStore.total === 0">
+        No items in Cart
+      </div>
+      <div v-else>
       <li v-for="(item, index) in cartStore.detailedItems" :key="item.id">
         <span>{{ index + 1 }} : {{ item.name }}</span>
         <span> price: ${{ item.price }} * {{ item.quantity }} =</span>
         <span> ${{ item.total }}</span>
+        <button @click="cartStore.remove(item.id)">Remove</button>
       </li>
+      <button @click="cartStore.clear">Remove All</button>
+      </div>
     </ul>
   </div>
 </template>
