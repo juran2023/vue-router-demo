@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { usePizzasStore } from './pizzas'
 
 export const useCartStore = defineStore('cart', () => {
-  const addedItems = ref([])
+  const addedItems = ref(getFromLocalStorage() || [])
   const total = computed(() => {
     return addedItems.value.reduce((acc, item) => {
       return acc + item.quantity
@@ -19,8 +19,8 @@ export const useCartStore = defineStore('cart', () => {
 
       return {
         ...item,
-        name: pizza.name,
-        description: pizza.description,
+        name: pizza?.name ?? '',
+        description: pizza?.description ?? '',
         price: pizzaPrice,
         total: pizzaPrice * item.quantity,
       }
@@ -28,9 +28,9 @@ export const useCartStore = defineStore('cart', () => {
   })
 
   const remove = (id) => {
-    const index = addedItems.value.findIndex(i => i.id === id)
+    const index = addedItems.value.findIndex((i) => i.id === id)
     if (index > -1) {
-      addedItems.value.splice(index, 1);
+      addedItems.value.splice(index, 1)
     }
   }
 
@@ -49,3 +49,12 @@ export const useCartStore = defineStore('cart', () => {
 
   return { addedItems, total, add, detailedItems, remove, clear }
 })
+
+function getFromLocalStorage() {
+  const raw = localStorage.getItem('cart-items')
+  if (!raw || raw === 'undefined') {
+    return []
+  }
+
+  return JSON.parse(raw)
+}

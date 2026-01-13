@@ -4,6 +4,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { router } from './router/index.js'
 import { createPinia } from 'pinia'
+import { cartPlugin } from './plugins/CartPlugin'
 
 const app = createApp(App)
 router.beforeEach((to, from) => {
@@ -18,6 +19,8 @@ router.afterEach((from, to) => {
   console.log(`[global] after each, ${from.path} to ${to.path}`)
 })
 app.use(router)
-app.use(createPinia())
+const pinia = createPinia()
+pinia.use(cartPlugin)
+app.use(pinia)
 
 app.mount('#app')
