@@ -1,6 +1,25 @@
 import { filterArray } from '@/utils/filterArray.js'
 import { useFilter } from '@/composables/useFilter'
 import { ref } from 'vue'
+import { useFetchPizza } from '@/composables/useFetchPizza'
+import { createApp } from 'vue'
+import { expect, vi } from 'vitest'
+import flushPromises from 'flush-promises'
+import axios from 'axios'
+
+vi.mock('axios')
+
+function withSetup(composable) {
+  let result
+  const app = createApp({
+    setup() {
+      result = composable()
+      return () => {}
+    },
+  })
+  app.mount(document.createElement('div'))
+  return result
+}
 
 const pizzas = [
   {
@@ -63,5 +82,48 @@ describe('useFilter', () => {
 
     expect(filteredArray.value.length).toBe(4)
     expect(filteredArray.value[0].title).toBe('Zesty Pizza')
+  })
+
+  // describe('useFetch', () => {
+  //   it('fetch pizzas', async () => {
+  //     const result = withSetup(useFetchPizza)
+  //     expect(result.loading.value).toBe(true)
+  //     // wait for fetch to complete
+  //     await new Promise((r) => setTimeout(r, 1000))
+  //     expect(result.loading.value).toBe(false)
+  //     expect(result.pizzas.value.length).toBeGreaterThan(0)
+  //   })
+  // })
+
+  describe('useFetch', () => {
+    beforeEach(() => {
+      vi.clearAllMocks()
+    })
+
+    it('fetch pizzas', async () => {
+      axios.get.mockResolvedValueOnce({
+        data: [{ id: 1, title: 'x' }],
+      })
+
+      const result = withSetup(useFetchPizza)
+
+      expect(result.loading.value).toBe(true)
+
+      await flushPromises()
+
+      expect(result.pizzas.value).toEqual([{ id: 1, title: 'x' }])
+    })
+  })
+
+  it('handles fetch error', async () => {
+    axios.get.mockRejectedValueOnce(new Error('Network Error'))
+
+    const result = withSetup(useFetchPizza)
+
+    expect(result.loading.value).toBe(true)
+
+    await flushPromises()
+
+    expect(result.error.value).toBe('Network Error')
   })
 })
