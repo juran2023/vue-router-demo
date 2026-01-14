@@ -1,4 +1,6 @@
 import { filterArray } from '@/utils/filterArray.js'
+import { useFilter } from '@/composables/useFilter'
+import { ref } from 'vue'
 
 const pizzas = [
   {
@@ -39,5 +41,27 @@ describe('filter array', () => {
 
   it('should return an empty array if provided key does not exist', () => {
     expect(filterArray(pizzas, 'nonexistentKey', 'pina')).toEqual([])
+  })
+})
+
+describe('useFilter', () => {
+  it('filter by title and sort descending', () => {
+    const arr = ref(pizzas)
+    const { filteredArray } = useFilter(arr, 'title', 'pizza', 'desc')
+    expect(filteredArray.value.length).toBe(3)
+    expect(filteredArray.value[0].title).toBe('Pina Colada Pizza')
+    expect(filteredArray.value[1].title).toBe('Meat Lovers Pizza')
+    expect(filteredArray.value[2].title).toBe('Hawaiian Pizza')
+
+    arr.value.push({
+      id: '6',
+      title: 'Zesty Pizza',
+      price: '12.00',
+      description: 'A delicious combination of spicy peppers and tangy sauce.',
+      quantity: 2,
+    })
+
+    expect(filteredArray.value.length).toBe(4)
+    expect(filteredArray.value[0].title).toBe('Zesty Pizza')
   })
 })
