@@ -10,9 +10,12 @@ const props = defineProps({
   }
 })
 
+const emits = defineEmits(['add-to-cart'])
+
 const pizza = props.pizza
 
 function addToCart(id){
+  emits('add-to-cart', {id: id, quantity:1})
   add({id: id, quantity:1})
 }
 

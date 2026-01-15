@@ -33,6 +33,12 @@ describe('PizzaCard', () => {
     expect(wrapper.find('button').exists()).toBe(true);
     expect(wrapper.find('button').text()).toBe('Add to Cart');
 
+    const button = wrapper.find('button');
+    button.trigger('click');
+
+    expect(wrapper.emitted()['add-to-cart']).toBeTruthy();
+    expect(wrapper.emitted()['add-to-cart'][0]).toEqual([{ id: pizza.id, quantity: 1 }]);
+
     // 这次保存的Html快照与上一次测试保存的快照最比较，查看UI是否有变动
     // expect(wrapper.html()).toMatchSnapshot();
 
