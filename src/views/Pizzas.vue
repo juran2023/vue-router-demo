@@ -46,8 +46,8 @@ watch(() => props.searchTerm, (newVal) => {
     </ul>
   </div>
   <div>
-    <h1>Choose Your Taste</h1>
-    <input v-model="inputValue" />
-    <button @click="handleSearch">search Pizza</button>
+    <h2>Choose Your Taste</h2>
+    <input v-model="inputValue" data-testid="search-input" />
+    <button @click="handleSearch" data-testid="search-button">search Pizza</button>
   </div>
 </template>
