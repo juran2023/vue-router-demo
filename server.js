@@ -1,16 +1,17 @@
-import express from 'express';
-import { createApp } from './app.js';
-import { renderToString } from 'vue/server-renderer';
+import express from 'express'
+import { createApp } from './app.js'
+import { renderToString } from 'vue/server-renderer'
 
-const server = express();
+const server = express()
 
-server.use(express.static('.'));
+server.use(express.static('.'))
 
 server.get('/', (req, res) => {
-  const app = createApp();
+  const app = createApp()
 
-  renderToString(app).then(html => {
-    res.send(`
+  renderToString(app)
+    .then((html) => {
+      res.send(`
       <!DOCTYPE html>
       <html lang="en">
         <head>
@@ -24,18 +25,22 @@ server.get('/', (req, res) => {
               }
             }
           </script>
+          <script type="module" src="/client.js"></script>
         </head>
         <body>
           <div id="app">${html}</div>
           <script type="module" src="/client.js"></script>
         </body>
       </html>
-    `);
-  }).catch(err => {
-    res.status(500).send('Server Error');
-    console.error(err);
-  });
-  server.use(express.static('.'));
+    `)
+    })
+    .catch((err) => {
+      res.status(500).send('Server Error')
+      console.error(err)
+    })
+  server.use(express.static('.'))
 })
 
-server.listen(3000, () => { console.log('Server is running on http://localhost:3000') });
+server.listen(3000, () => {
+  console.log('Server is running on http://localhost:3000')
+})
