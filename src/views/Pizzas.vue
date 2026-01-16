@@ -2,7 +2,7 @@
 import { usePizzasStore } from '@/stores/pizzas';
 import { useSearch } from '@/composables/useSearch';
 import { useRouter, useRoute } from 'vue-router';
-import { watch, ref, defineProps } from 'vue';
+import { watch, ref} from 'vue';
 import { storeToRefs } from 'pinia';
 import PizzaCard from './PizzaCard.vue';
 const props = defineProps({

@@ -1,6 +1,6 @@
 <script setup>
 import { useCartStore } from '@/stores/cart';
-import { defineProps, computed } from 'vue';
+import { computed } from 'vue';
 const { addedItems, add } = useCartStore()
 
 const props = defineProps({
