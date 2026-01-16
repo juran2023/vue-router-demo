@@ -1,7 +1,8 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`PizzaCard > should render the pizza details 1`] = `
-"Test Pizza | Test Pizza Description | 10
+"<span data-testid="Test Pizza">Test Pizza</span>
+ Test Pizza Description | 10
 <button>Add to Cart</button>
 <!--v-if-->"
 `;

@@ -40,7 +40,7 @@ describe('PizzaCard', () => {
     expect(wrapper.emitted()['add-to-cart'][0]).toEqual([{ id: pizza.id, quantity: 1 }]);
 
     // 这次保存的Html快照与上一次测试保存的快照最比较，查看UI是否有变动
-    // expect(wrapper.html()).toMatchSnapshot();
+    expect(wrapper.html()).toMatchSnapshot();
 
     // Check image attributes
     // const img = wrapper.find('img')
